@@ -10,486 +10,413 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 // Structure complète des questions
 const allQuestions = [
-  // SECTION 1: Type de demande
   {
-    id: 'type_demande',
-    section: 'Type de demande',
-    question: 'Quel type de demande souhaitez-vous faire ?',
-    type: 'select',
+    id: "type_demande",
+    section: "Type de demande",
+    question: "Quel type de demande souhaitez-vous faire ?",
+    type: "select",
     required: true,
-    options: [
-      'Refinancement/Renouvellement hypothécaire sans changements',
-      'Refinancement/Renouvellement avec ajout d\'un montant',
-      'Nouvel achat propriétaire occupant',
-      'Nouvel achat duplex et + propriétaire occupant et locatif',
-      'Nouvel achat 100% locatif'
-    ]
-  },
-  
-  // SECTION 2: Bilan
-  {
-    id: 'processus_financement',
-    section: 'Bilan',
-    question: 'Où en êtes-vous dans votre processus de financement ?',
-    type: 'select',
-    required: true,
-    options: [
-      'J\'ai déjà commencé à me renseigner mais je n\'ai pas reçu un super deal',
-      'Je veux un taux qui fonctionne et je suis prêt(e) à avancer',
-      'Je veux de l\'aide avec un accompagnement personnalisé',
-      'J\'ai déjà une préqualification ou offre verbale',
-      'Je n\'ai pas encore regardé, mais je veux qu\'on m\'en propose mieux',
-      'J\'ai été référé(e) et j\'ai entendu du bien du courtier'
-    ]
+    options: ["Refinancement/Renouvellement hypothécaire sans changementsooo","Refinancement/Renouvellement avec ajout d'un montant","Nouvel achat propriétaire occupant","Nouvel achat duplex et + propriétaire occupant et locatif","Nouvel achat 100% locatif"]
   },
   {
-    id: 'importance_financement',
-    section: 'Bilan',
-    question: 'Quel est le plus important pour vous dans votre financement hypothécaire ?',
-    type: 'select',
+    id: "processus_financement",
+    section: "Bilan",
+    question: "Où en êtes-vous dans votre processus de financement ?",
+    type: "select",
     required: true,
-    options: [
-      'Le service, l\'accompagnement et une solution adaptée',
-      'Le taux le plus bas, peu importe le reste'
-    ]
+    options: ["J'ai déjà commencé à me renseigner mais je n'ai pas reçu un super deal","Je veux un taux qui fonctionne et je suis prêt(e) à avancer","Je veux de l'aide avec un accompagnement personnalisé","J'ai déjà une préqualification ou offre verbale","Je n'ai pas encore regardé, mais je veux qu'on m'en propose mieux","J'ai été référé(e) et j'ai entendu du bien du courtier"]
   },
   {
-    id: 'pret_avancer',
-    section: 'Bilan',
-    question: 'Si nous trouvons une offre avantageuse parmi 2-3 offres, seriez-vous prêt à aller de l\'avant ?',
-    type: 'select',
+    id: "importance_financement",
+    section: "Bilan",
+    question: "Quel est le plus important pour vous dans votre financement hypothécaire ?",
+    type: "select",
     required: true,
-    options: [
-      'Oui, si c\'est la meilleure option pour moi',
-      'Je préfère voir plusieurs offres avant de me décider',
-      'Seulement si vous pouvez battre l\'offre que j\'ai déjà reçue',
-      'Oui, avec un bon service et accompagnement',
-      'Peut-être, mais je vais aussi voir ailleurs'
-    ]
+    options: ["Le service, l'accompagnement et une solution adaptée","Le taux le plus bas, peu importe le reste"]
   },
   {
-    id: 'offre_existante',
-    section: 'Bilan',
-    question: 'Avez-vous déjà obtenu une offre ou préqualification d\'une autre institution ?',
-    type: 'select',
+    id: "pret_avancer",
+    section: "Bilan",
+    question: "Si nous trouvons une offre avantageuse parmi 2-3 offres, seriez-vous prêt à aller de l'avant ?",
+    type: "select",
     required: true,
-    options: [
-      'Oui, mais je veux voir si vous pouvez battre leur taux',
-      'Oui, j\'ai déjà commencé avec un autre courtier mais je souhaite un meilleur service',
-      'Non, je veux explorer mes options avec vous'
-    ]
+    options: ["Oui, si c'est la meilleure option pour moi","Je préfère voir plusieurs offres avant de me décider","Seulement si vous pouvez battre l'offre que j'ai déjà reçue","Oui, avec un bon service et accompagnement","Peut-être, mais je vais aussi voir ailleurs"]
   },
   {
-    id: 'documents_financiers',
-    section: 'Bilan',
-    question: 'Avez-vous déjà rassemblé certains documents financiers ?',
-    type: 'select',
+    id: "offre_existante",
+    section: "Bilan",
+    question: "Avez-vous déjà obtenu une offre ou préqualification d'une autre institution ?",
+    type: "select",
     required: true,
-    options: [
-      'Oui, j\'ai possiblement déjà tout ou une partie prête',
-      'Pas encore, mais je vais le faire dès que possible',
-      'Je dois régler cela rapidement, j\'ai un délai à respecter'
-    ]
+    options: ["Oui, mais je veux voir si vous pouvez battre leur taux","Oui, j'ai déjà commencé avec un autre courtier mais je souhaite un meilleur service","Non, je veux explorer mes options avec vous"]
   },
   {
-    id: 'date_limite',
-    section: 'Bilan',
-    question: 'Avez-vous une date limite pour finaliser votre financement ?',
-    type: 'select',
+    id: "documents_financiers",
+    section: "Bilan",
+    question: "Avez-vous déjà rassemblé certains documents financiers ?",
+    type: "select",
     required: true,
-    options: [
-      'Date précise (ex: dans 3-4 mois)',
-      'Non, je regarde juste mes options',
-      'Je veux juste me faire qualifier',
-      'Pas de stress, c\'est pour dans plus de 6 mois',
-      'Je ne suis pas pressé(e), je cherche le taux le plus bas'
-    ]
+    options: ["Oui, j'ai possiblement déjà tout ou une partie prête","Pas encore, mais je vais le faire dès que possible","Je dois régler cela rapidement, j'ai un délai à respecter"]
   },
   {
-    id: 'date_limite_precise',
-    section: 'Bilan',
-    question: 'Indiquez la date limite',
-    type: 'date',
+    id: "date_limite",
+    section: "Bilan",
+    question: "Avez-vous une date limite pour finaliser votre financement ?",
+    type: "select",
+    required: true,
+    options: ["Date précise (ex: dans 3-4 mois)","Non, je regarde juste mes options","Je veux juste me faire qualifier","Pas de stress, c'est pour dans plus de 6 mois","Je ne suis pas pressé(e), je cherche le taux le plus bas"]
+  },
+  {
+    id: "date_limite_precise",
+    section: "Bilan",
+    question: "Indiquez la date limite",
+    type: "date",
     required: true,
     condition: (answers) => answers.date_limite === 'Date précise (ex: dans 3-4 mois)'
   },
-
-  // SECTION 3: Informations personnelles
   {
-    id: 'titre_politesse',
-    section: 'Informations personnelles',
-    question: 'Titre de politesse',
-    type: 'select',
+    id: "titre_politesse",
+    section: "Informations personnelles",
+    question: "Titre de politesse",
+    type: "select",
     required: true,
-    options: ['Mr.', 'Mme.']
+    options: ["Mr.","Mme."]
   },
   {
-    id: 'prenom',
-    section: 'Informations personnelles',
-    question: 'Quel est votre prénom ?',
-    type: 'text',
+    id: "prenom",
+    section: "Informations personnelles",
+    question: "Quel est votre prénom ?",
+    type: "text",
     required: true,
-    placeholder: 'Votre prénom'
+    placeholder: "Votre prénom"
   },
   {
-    id: 'nom',
-    section: 'Informations personnelles',
-    question: 'Quel est votre nom ?',
-    type: 'text',
+    id: "nom",
+    section: "Informations personnelles",
+    question: "Quel est votre nom ?",
+    type: "text",
     required: true,
-    placeholder: 'Votre nom'
+    placeholder: "Votre nom"
   },
   {
-    id: 'date_naissance',
-    section: 'Informations personnelles',
-    question: 'Date de naissance',
-    type: 'date',
+    id: "date_naissance",
+    section: "Informations personnelles",
+    question: "Date de naissance",
+    type: "date",
     required: true
   },
   {
-    id: 'etat_civil',
-    section: 'Informations personnelles',
-    question: 'État civil',
-    type: 'select',
+    id: "etat_civil",
+    section: "Informations personnelles",
+    question: "État civil",
+    type: "select",
     required: true,
-    options: ['Célibataire', 'Marié', 'Divorcé', 'Séparé', 'Conjoint de fait', 'Veuf/Veuve']
+    options: ["Célibataire","Marié","Divorcé","Séparé","Conjoint de fait","Veuf/Veuve"]
   },
   {
-    id: 'regime_matrimonial',
-    section: 'Informations personnelles',
-    question: 'Type de régime matrimonial',
-    type: 'select',
+    id: "regime_matrimonial",
+    section: "Informations personnelles",
+    question: "Type de régime matrimonial",
+    type: "select",
     required: true,
-    condition: (answers) => answers.etat_civil === 'Marié',
-    options: ['Société d\'acquêts', 'Séparation de biens', 'Communauté de biens']
+    options: ["Société d'acquêts","Séparation de biens","Communauté de biens"],
+    condition: (answers) => answers.etat_civil === 'Marié'
   },
   {
-    id: 'situation_veuf',
-    section: 'Informations personnelles',
-    question: 'Pour Veuf/Veuve, précisez votre situation',
-    type: 'select',
+    id: "situation_veuf",
+    section: "Informations personnelles",
+    question: "Pour Veuf/Veuve, précisez votre situation",
+    type: "select",
     required: true,
-    condition: (answers) => answers.etat_civil === 'Veuf/Veuve',
-    options: ['Je reçois un montant régulier', 'Je ne reçois pas de montant']
+    options: ["Je reçois un montant régulier","Je ne reçois pas de montant"],
+    condition: (answers) => answers.etat_civil === 'Veuf/Veuve'
   },
   {
-    id: 'telephone',
-    section: 'Informations personnelles',
-    question: 'Numéro de téléphone',
-    type: 'tel',
+    id: "telephone",
+    section: "Informations personnelles",
+    question: "Numéro de téléphone",
+    type: "tel",
     required: true,
-    placeholder: '(514) 555-1234'
+    placeholder: "(514) 555-1234"
   },
   {
-    id: 'courriel',
-    section: 'Informations personnelles',
-    question: 'Adresse courriel',
-    type: 'email',
+    id: "courriel",
+    section: "Informations personnelles",
+    question: "Adresse courriel",
+    type: "email",
     required: true,
-    placeholder: 'vous@exemple.com'
+    placeholder: "vous@exemple.com"
   },
   {
-    id: 'resident_canada',
-    section: 'Informations personnelles',
-    question: 'Statut de résidence au Canada',
-    type: 'select',
+    id: "resident_canada",
+    section: "Informations personnelles",
+    question: "Statut de résidence au Canada",
+    type: "select",
     required: true,
-    options: ['Citoyen', 'Résident', 'Immigrant reçu', 'Étranger', 'Visa Étudiant', 'Visa de travail', 'Non résident']
+    options: ["Citoyen","Résident","Immigrant reçu","Étranger","Visa Étudiant","Visa de travail","Non résident"]
   },
   {
-    id: 'nouvel_arrivant',
-    section: 'Informations personnelles',
-    question: 'Êtes-vous un nouvel arrivant au Canada ?',
-    type: 'select',
+    id: "nouvel_arrivant",
+    section: "Informations personnelles",
+    question: "Êtes-vous un nouvel arrivant au Canada ?",
+    type: "select",
     required: true,
-    options: ['Oui', 'Non']
+    options: ["Oui","Non"]
   },
   {
-    id: 'premier_acheteur',
-    section: 'Informations personnelles',
-    question: 'Êtes-vous un nouvel acheteur (première propriété) ?',
-    type: 'select',
+    id: "premier_acheteur",
+    section: "Informations personnelles",
+    question: "Êtes-vous un nouvel acheteur (première propriété) ?",
+    type: "select",
     required: true,
-    options: ['Oui', 'Non']
-  },
-
-  // SECTION 4: Emploi
-  {
-    id: 'arret_travail',
-    section: 'Emploi',
-    question: 'Êtes-vous présentement en arrêt de travail ?',
-    type: 'select',
-    required: true,
-    options: ['Oui', 'Non']
+    options: ["Oui","Non"]
   },
   {
-    id: 'cause_arret',
-    section: 'Emploi',
-    question: 'Cause de l\'arrêt ?',
-    type: 'select',
+    id: "arret_travail",
+    section: "Emploi",
+    question: "Êtes-vous présentement en arrêt de travail ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.arret_travail === 'Oui',
-    options: ['Maladie', 'Maternité/paternité']
+    options: ["Oui","Non"]
   },
   {
-    id: 'duree_arret',
-    section: 'Emploi',
-    question: 'Durée de l\'arrêt ?',
-    type: 'select',
+    id: "cause_arret",
+    section: "Emploi",
+    question: "Cause de l'arrêt ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.arret_travail === 'Oui',
-    options: ['Courte durée', 'Longue durée']
+    options: ["Maladie","Maternité/paternité"],
+    condition: (answers) => answers.arret_travail === 'Oui'
   },
   {
-    id: 'assurance_emploi',
-    section: 'Emploi',
-    question: 'Avez-vous eu recours à de l\'assurance-emploi ?',
-    type: 'select',
+    id: "duree_arret",
+    section: "Emploi",
+    question: "Durée de l'arrêt ?",
+    type: "select",
     required: true,
-    options: ['Non', 'Oui']
+    options: ["Courte durée","Longue durée"],
+    condition: (answers) => answers.arret_travail === 'Oui'
   },
   {
-    id: 'raison_assurance_emploi',
-    section: 'Emploi',
-    question: 'Pourquoi avez-vous eu recours à l\'assurance-emploi ?',
-    type: 'textarea',
+    id: "assurance_emploi",
+    section: "Emploi",
+    question: "Avez-vous eu recours à de l'assurance-emploi ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.assurance_emploi === 'Oui',
-    placeholder: 'Expliquez brièvement...'
-  },
-
-  // SECTION 5: Revenus
-  {
-    id: 'revenu_retraite',
-    section: 'Revenus',
-    question: 'Avez-vous un revenu de retraite ?',
-    type: 'select',
-    required: true,
-    options: ['Oui', 'Non']
+    options: ["Non","Oui"]
   },
   {
-    id: 'revenu_employe',
-    section: 'Revenus',
-    question: 'Avez-vous un revenu en tant qu\'employé ?',
-    type: 'select',
+    id: "raison_assurance_emploi",
+    section: "Emploi",
+    question: "Pourquoi avez-vous eu recours à l'assurance-emploi ?",
+    type: "textarea",
     required: true,
-    options: ['Oui', 'Non']
+    placeholder: "Expliquez brièvement...",
+    condition: (answers) => answers.assurance_emploi === 'Oui'
   },
   {
-    id: 'revenu_travailleur_autonome',
-    section: 'Revenus',
-    question: 'Avez-vous un revenu de travailleur autonome et/ou entrepreneur ?',
-    type: 'select',
+    id: "revenu_retraite",
+    section: "Revenus",
+    question: "Avez-vous un revenu de retraite ?",
+    type: "select",
     required: true,
-    options: ['Oui', 'Non']
+    options: ["Oui","Non"]
   },
   {
-    id: 'type_revenu_autonome',
-    section: 'Revenus',
-    question: 'Quel type de revenu avez-vous en tant que travailleur autonome ?',
-    type: 'select',
+    id: "revenu_employe",
+    section: "Revenus",
+    question: "Avez-vous un revenu en tant qu'employé ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.revenu_travailleur_autonome === 'Oui',
-    options: ['Dividendes', 'Je me tire un salaire', 'Je me tire un salaire et je me verse des dividendes']
-  },
-
-  // SECTION 6: Passifs
-  {
-    id: 'a_dettes',
-    section: 'Passifs',
-    question: 'Détenez-vous des dettes ?',
-    type: 'select',
-    required: true,
-    options: ['Oui', 'Non']
-  },
-
-  // SECTION 7: Faillite/Crédit
-  {
-    id: 'faillite_proposition',
-    section: 'Crédit',
-    question: 'Avez-vous déjà déclaré faillite ou fait une proposition au consommateur ?',
-    type: 'select',
-    required: true,
-    options: [
-      'Oui, j\'ai fait une faillite depuis moins de 10 ans',
-      'Oui, j\'ai fait une proposition au consommateur depuis moins de 10 ans',
-      'Oui, j\'ai déjà fait faillite ou proposition mais ça fait plus de 10 ans',
-      'Non jamais'
-    ]
+    options: ["Oui","Non"]
   },
   {
-    id: 'montant_faillite',
-    section: 'Crédit',
-    question: 'Montant de la faillite ou proposition au consommateur',
-    type: 'number',
+    id: "revenu_travailleur_autonome",
+    section: "Revenus",
+    question: "Avez-vous un revenu de travailleur autonome et/ou entrepreneur ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.faillite_proposition !== 'Non jamais',
-    placeholder: '$ Montant'
+    options: ["Oui","Non"]
   },
   {
-    id: 'date_declaree',
-    section: 'Crédit',
-    question: 'Date déclarée',
-    type: 'date',
+    id: "type_revenu_autonome",
+    section: "Revenus",
+    question: "Quel type de revenu avez-vous en tant que travailleur autonome ?",
+    type: "select",
+    required: true,
+    options: ["Dividendes","Je me tire un salaire","Je me tire un salaire et je me verse des dividendes"],
+    condition: (answers) => answers.revenu_travailleur_autonome === 'Oui'
+  },
+  {
+    id: "a_dettes",
+    section: "Passifs",
+    question: "Détenez-vous des dettes ?",
+    type: "select",
+    required: true,
+    options: ["Oui","Non"]
+  },
+  {
+    id: "faillite_proposition",
+    section: "Crédit",
+    question: "Avez-vous déjà déclaré faillite ou fait une proposition au consommateur ?",
+    type: "select",
+    required: true,
+    options: ["Oui, j'ai fait une faillite depuis moins de 10 ans","Oui, j'ai fait une proposition au consommateur depuis moins de 10 ans","Oui, j'ai déjà fait faillite ou proposition mais ça fait plus de 10 ans","Non jamais"]
+  },
+  {
+    id: "montant_faillite",
+    section: "Crédit",
+    question: "Montant de la faillite ou proposition au consommateur",
+    type: "number",
+    required: true,
+    placeholder: "$ Montant",
+    condition: (answers) => answers.faillite_proposition !== 'Non jamais'
+  },
+  {
+    id: "date_declaree",
+    section: "Crédit",
+    question: "Date déclarée",
+    type: "date",
     required: true,
     condition: (answers) => answers.faillite_proposition !== 'Non jamais'
   },
   {
-    id: 'date_liberation',
-    section: 'Crédit',
-    question: 'Date de libération',
-    type: 'date',
+    id: "date_liberation",
+    section: "Crédit",
+    question: "Date de libération",
+    type: "date",
     required: true,
     condition: (answers) => answers.faillite_proposition !== 'Non jamais'
   },
   {
-    id: 'connait_score_credit',
-    section: 'Crédit',
-    question: 'Connaissez-vous votre score de crédit approximatif ?',
-    type: 'select',
+    id: "connait_score_credit",
+    section: "Crédit",
+    question: "Connaissez-vous votre score de crédit approximatif ?",
+    type: "select",
     required: true,
-    options: ['Oui', 'Non']
+    options: ["Oui","Non"]
   },
   {
-    id: 'score_credit',
-    section: 'Crédit',
-    question: 'Score approximatif',
-    type: 'number',
+    id: "score_credit",
+    section: "Crédit",
+    question: "Score approximatif",
+    type: "number",
     required: true,
-    condition: (answers) => answers.connait_score_credit === 'Oui',
-    placeholder: 'Ex: 720'
+    placeholder: "Ex: 720",
+    condition: (answers) => answers.connait_score_credit === 'Oui'
   },
   {
-    id: 'paiements_manques',
-    section: 'Crédit',
-    question: 'Avez-vous déjà manqué des paiements dans les 4 dernières années ?',
-    type: 'select',
+    id: "paiements_manques",
+    section: "Crédit",
+    question: "Avez-vous déjà manqué des paiements dans les 4 dernières années ?",
+    type: "select",
     required: true,
-    options: ['Oui', 'Non']
-  },
-
-  // SECTION 8: Propriétés
-  {
-    id: 'a_proprietes',
-    section: 'Propriétés',
-    question: 'Détenez-vous une/des propriétés à votre nom personnel ?',
-    type: 'select',
-    required: true,
-    options: ['Oui', 'Non']
-  },
-
-  // SECTION 9: Assurances
-  {
-    id: 'conseiller_assurance_vie',
-    section: 'Assurances',
-    question: 'Avez-vous déjà un conseiller en sécurité financière pour vos assurances-vie ?',
-    type: 'select',
-    required: true,
-    options: [
-      'J\'ai déjà mon conseiller en sécurité financière',
-      'J\'aimerais regarder les options et avoir les conseils d\'un professionnel',
-      'Je ne veux pas magasiner d\'assurance-vie',
-      'Je préfère prendre l\'assurance proposée par le nouveau prêteur'
-    ]
+    options: ["Oui","Non"]
   },
   {
-    id: 'courtier_assurance_habitation',
-    section: 'Assurances',
-    question: 'Avez-vous un courtier en assurance habitation ?',
-    type: 'select',
+    id: "a_proprietes",
+    section: "Propriétés",
+    question: "Détenez-vous une/des propriétés à votre nom personnel ?",
+    type: "select",
     required: true,
-    options: [
-      'Svp référez-moi un courtier pour faire un choix économique',
-      'J\'ai déjà contacté un assureur'
-    ]
-  },
-
-  // SECTION 10: Propriété à refinancer (conditionnel)
-  {
-    id: 'solde_hypothecaire',
-    section: 'Propriété à refinancer',
-    question: 'Quel est votre solde hypothécaire actuel ?',
-    type: 'number',
-    required: true,
-    condition: (answers) => answers.type_demande?.includes('Refinancement'),
-    placeholder: '$ Montant'
+    options: ["Oui","Non"]
   },
   {
-    id: 'montant_versement',
-    section: 'Propriété à refinancer',
-    question: 'Montant du versement hypothécaire actuel',
-    type: 'number',
+    id: "conseiller_assurance_vie",
+    section: "Assurances",
+    question: "Avez-vous déjà un conseiller en sécurité financière pour vos assurances-vie ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Refinancement'),
-    placeholder: '$ Montant'
+    options: ["J'ai déjà mon conseiller en sécurité financière","J'aimerais regarder les options et avoir les conseils d'un professionnel","Je ne veux pas magasiner d'assurance-vie","Je préfère prendre l'assurance proposée par le nouveau prêteur"]
   },
   {
-    id: 'type_versement',
-    section: 'Propriété à refinancer',
-    question: 'Type de versement',
-    type: 'select',
+    id: "courtier_assurance_habitation",
+    section: "Assurances",
+    question: "Avez-vous un courtier en assurance habitation ?",
+    type: "select",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Refinancement'),
-    options: ['Hebdomadaire', 'Aux 2 semaines', 'Mensuel', 'Bi-mensuel']
+    options: ["Svp référez-moi un courtier pour faire un choix économique","J'ai déjà contacté un assureur"]
   },
   {
-    id: 'valeur_marche',
-    section: 'Propriété à refinancer',
-    question: 'Valeur estimée de votre propriété (valeur marché actuel)',
-    type: 'number',
+    id: "solde_hypothecaire",
+    section: "Propriété à refinancer",
+    question: "Quel est votre solde hypothécaire actuel ?",
+    type: "number",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Refinancement'),
-    placeholder: '$ Montant'
+    placeholder: "$ Montant",
+    condition: (answers) => answers.type_demande?.includes('Refinancement')
   },
   {
-    id: 'annee_construction',
-    section: 'Propriété à refinancer',
-    question: 'Année de construction de la propriété',
-    type: 'number',
+    id: "montant_versement",
+    section: "Propriété à refinancer",
+    question: "Montant du versement hypothécaire actuel",
+    type: "number",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Refinancement'),
-    placeholder: 'Ex: 1995'
+    placeholder: "$ Montant",
+    condition: (answers) => answers.type_demande?.includes('Refinancement')
   },
   {
-    id: 'amortissement_desire',
-    section: 'Propriété à refinancer',
-    question: 'Amortissement désiré (entre 3 et 30 ans)',
-    type: 'number',
+    id: "type_versement",
+    section: "Propriété à refinancer",
+    question: "Type de versement",
+    type: "select",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Refinancement'),
-    placeholder: 'Nombre d\'années'
-  },
-
-  // SECTION 11: Nouvel achat (conditionnel)
-  {
-    id: 'type_mise_fonds',
-    section: 'Nouvel achat',
-    question: 'Souhaitez-vous mettre un montant fixe en mise de fonds ou le % minimum ?',
-    type: 'select',
-    required: true,
-    condition: (answers) => answers.type_demande?.includes('Nouvel achat'),
-    options: [
-      'Je ne veux pas mettre plus que la mise de fonds minimale requise',
-      'J\'ai un montant fixe que je veux utiliser pour ma mise de fonds'
-    ]
+    options: ["Hebdomadaire","Aux 2 semaines","Mensuel","Bi-mensuel"],
+    condition: (answers) => answers.type_demande?.includes('Refinancement')
   },
   {
-    id: 'montant_compte_banque',
-    section: 'Nouvel achat',
-    question: 'Combien d\'argent avez-vous dans votre compte pour la mise de fonds ?',
-    type: 'number',
+    id: "valeur_marche",
+    section: "Propriété à refinancer",
+    question: "Valeur estimée de votre propriété (valeur marché actuel)",
+    type: "number",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Nouvel achat'),
-    placeholder: '$ Montant (excluant le 1.5% de la valeur)'
+    placeholder: "$ Montant",
+    condition: (answers) => answers.type_demande?.includes('Refinancement')
   },
   {
-    id: 'montant_depuis_3mois',
-    section: 'Nouvel achat',
-    question: 'Détenez-vous ce montant depuis plus de 3 mois ?',
-    type: 'select',
+    id: "annee_construction",
+    section: "Propriété à refinancer",
+    question: "Année de construction de la propriété",
+    type: "number",
     required: true,
-    condition: (answers) => answers.type_demande?.includes('Nouvel achat'),
-    options: ['Oui', 'Non']
+    placeholder: "Ex: 1995",
+    condition: (answers) => answers.type_demande?.includes('Refinancement')
+  },
+  {
+    id: "amortissement_desire",
+    section: "Propriété à refinancer",
+    question: "Amortissement désiré (entre 3 et 30 ans)",
+    type: "number",
+    required: true,
+    placeholder: "Nombre d'années",
+    condition: (answers) => answers.type_demande?.includes('Refinancement')
+  },
+  {
+    id: "type_mise_fonds",
+    section: "Nouvel achat",
+    question: "Souhaitez-vous mettre un montant fixe en mise de fonds ou le % minimum ?",
+    type: "select",
+    required: true,
+    options: ["Je ne veux pas mettre plus que la mise de fonds minimale requise","J'ai un montant fixe que je veux utiliser pour ma mise de fonds"],
+    condition: (answers) => answers.type_demande?.includes('Nouvel achat')
+  },
+  {
+    id: "montant_compte_banque",
+    section: "Nouvel achat",
+    question: "Combien d'argent avez-vous dans votre compte pour la mise de fonds ?",
+    type: "number",
+    required: true,
+    placeholder: "$ Montant (excluant le 1.5% de la valeur)",
+    condition: (answers) => answers.type_demande?.includes('Nouvel achat')
+  },
+  {
+    id: "montant_depuis_3mois",
+    section: "Nouvel achat",
+    question: "Détenez-vous ce montant depuis plus de 3 mois ?",
+    type: "select",
+    required: true,
+    options: ["Oui","Non"],
+    condition: (answers) => answers.type_demande?.includes('Nouvel achat')
   }
 ];
 
