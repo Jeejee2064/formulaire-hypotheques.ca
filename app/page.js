@@ -115,15 +115,6 @@ const allQuestions = [
     options: ["Célibataire","Marié","Divorcé","Séparé","Conjoint de fait","Veuf/Veuve"]
   },
   {
-    id: "situation_veuf",
-    section: "Informations personnelles",
-    question: "Pour Veuf/Veuve, précisez votre situation",
-    type: "select",
-    required: true,
-    options: ["Je reçois un montant régulier","Je ne reçois pas de montant"],
-    condition: { field: "etat_civil", value: "Veuf/Veuve" }
-  },
-  {
     id: "regime_matrimonial",
     section: "Informations personnelles",
     question: "Type de régime matrimonial",
@@ -131,6 +122,15 @@ const allQuestions = [
     required: true,
     options: ["Société d'acquêts","Séparation de biens","Communauté de biens"],
     condition: { field: "etat_civil", value: "Marié" }
+  },
+  {
+    id: "situation_veuf",
+    section: "Informations personnelles",
+    question: "Pour Veuf/Veuve, précisez votre situation",
+    type: "select",
+    required: true,
+    options: ["Je reçois un montant régulier","Je ne reçois pas de montant"],
+    condition: { field: "etat_civil", value: "Veuf/Veuve" }
   },
   {
     id: "telephone",
@@ -181,15 +181,6 @@ const allQuestions = [
     options: ["Oui","Non"]
   },
   {
-    id: "duree_arret",
-    section: "Emploi",
-    question: "Durée de l'arrêt ?",
-    type: "select",
-    required: true,
-    options: ["Courte durée","Longue durée"],
-    condition: { field: "arret_travail", value: "Oui" }
-  },
-  {
     id: "cause_arret",
     section: "Emploi",
     question: "Cause de l'arrêt ?",
@@ -199,12 +190,21 @@ const allQuestions = [
     condition: { field: "arret_travail", value: "Oui" }
   },
   {
+    id: "duree_arret",
+    section: "Emploi",
+    question: "Durée de l'arrêt ?",
+    type: "select",
+    required: true,
+    options: ["Courte durée","Longue durée"],
+    condition: { field: "arret_travail", value: "Oui" }
+  },
+  {
     id: "assurance_emploi",
     section: "Emploi",
     question: "Avez-vous eu recours à de l'assurance-emploi ?",
     type: "select",
     required: true,
-    options: ["Oui","Non"]
+    options: ["Non","Oui"]
   },
   {
     id: "raison_assurance_emploi",
@@ -265,6 +265,15 @@ const allQuestions = [
     options: ["Oui, j'ai fait une faillite depuis moins de 10 ans","Oui, j'ai fait une proposition au consommateur depuis moins de 10 ans","Oui, j'ai déjà fait faillite ou proposition mais ça fait plus de 10 ans","Non jamais"]
   },
   {
+    id: "montant_faillite",
+    section: "Crédit",
+    question: "Montant de la faillite ou proposition au consommateur",
+    type: "number",
+    required: true,
+    placeholder: "$ Montant",
+    condition: { field: "faillite_proposition", not: "Non jamais" }
+  },
+  {
     id: "date_declaree",
     section: "Crédit",
     question: "Date déclarée",
@@ -273,12 +282,11 @@ const allQuestions = [
     condition: { field: "faillite_proposition", not: "Non jamais" }
   },
   {
-    id: "montant_faillite",
+    id: "date_liberation",
     section: "Crédit",
-    question: "Montant de la faillite ou proposition au consommateur",
-    type: "number",
+    question: "Date de libération",
+    type: "date",
     required: true,
-    placeholder: "$ Montant",
     condition: { field: "faillite_proposition", not: "Non jamais" }
   },
   {
@@ -299,14 +307,6 @@ const allQuestions = [
     condition: { field: "connait_score_credit", value: "Oui" }
   },
   {
-    id: "date_liberation",
-    section: "Crédit",
-    question: "Date de libération",
-    type: "date",
-    required: true,
-    condition: { field: "connait_score_credit", value: "Oui" }
-  },
-  {
     id: "paiements_manques",
     section: "Crédit",
     question: "Avez-vous déjà manqué des paiements dans les 4 dernières années ?",
@@ -321,14 +321,6 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Oui","Non"]
-  },
-  {
-    id: "_1767108408482",
-    section: "Propriétés",
-    question: "",
-    type: "text",
-    required: true,
-    condition: { field: "a_proprietes", value: "Oui" }
   },
   {
     id: "conseiller_assurance_vie",
@@ -426,8 +418,10 @@ const allQuestions = [
     required: true,
     options: ["Oui","Non"],
     condition: { field: "type_demande", includes: "Nouvel achat" }
-  }
+  },
+  
 ];
+
 // Helper function to evaluate conditions
 const evaluateCondition = (condition, answers) => {
   if (!condition) return true;
