@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialisez Resend avec votre clé API
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
   try {
     const { pdf, name, email } = await req.json();
 
-    // Validation des données requises
     if (!pdf || !name || !email) {
       return NextResponse.json(
         { error: 'Données manquantes: pdf, name ou email' },
@@ -16,14 +14,20 @@ export async function POST(req) {
       );
     }
 
-    // Décodez le base64 si nécessaire
     const pdfBuffer = Buffer.from(pdf, 'base64');
 
     const data = await resend.emails.send({
-      from: 'onboarding@resend.dev', // Vous pouvez aussi utiliser un domaine vérifié
-      to: 'jeejee2064@gmail.com', // Remplacez par votre email
-      reply_to: email, // Optionnel: permet de répondre au client
+      // MUST be a verified domain
+      from: 'Hypothèques Info <no-reply@hypotheques.info>',
+
+      // Final recipient
+      to: ['vlesaux@hypotheques.ca'],
+
+      // Allows replying directly to the client
+      reply_to: email,
+
       subject: `NOUVEAU DOSSIER: ${name}`,
+
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
           <h2>Nouvelle demande hypothécaire reçue</h2>
@@ -34,28 +38,21 @@ export async function POST(req) {
           <p>Le dossier PDF est joint à cet email.</p>
         </div>
       `,
+
       attachments: [
         {
-          filename: `Dossier_${name.replace(/\s/g, '_')}_${Date.now()}.pdf`,
+          filename: `Dossier_${name.replace(/\s+/g, '_')}.pdf`,
           content: pdfBuffer,
         },
       ],
     });
 
-    if (data.error) {
-      console.error('Erreur Resend:', data.error);
-      return NextResponse.json(
-        { error: data.error.message || 'Erreur lors de l\'envoi de l\'email' },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: 'Email envoyé avec succès',
-      data 
+      data,
     });
-    
+
   } catch (error) {
     console.error('Erreur serveur:', error);
     return NextResponse.json(

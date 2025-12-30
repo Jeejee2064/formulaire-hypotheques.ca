@@ -8,7 +8,8 @@ import 'react-phone-number-input/style.css';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-// Structure complète des questions
+
+// Structure complète des questions avec conditions basées sur des IDs
 const allQuestions = [
   {
     id: "type_demande",
@@ -16,7 +17,7 @@ const allQuestions = [
     question: "Quel type de demande souhaitez-vous faire ?",
     type: "select",
     required: true,
-    options: ["Refinancement/Renouvellement hypothécaire sans changementsooo","Refinancement/Renouvellement avec ajout d'un montant","Nouvel achat propriétaire occupant","Nouvel achat duplex et + propriétaire occupant et locatif","Nouvel achat 100% locatif"]
+    options: ["Refinancement/Renouvellement hypothécaire sans changements","Refinancement/Renouvellement avec ajout d'un montant","Nouvel achat propriétaire occupant","Nouvel achat duplex et + propriétaire occupant et locatif","Nouvel achat 100% locatif"]
   },
   {
     id: "processus_financement",
@@ -72,7 +73,7 @@ const allQuestions = [
     question: "Indiquez la date limite",
     type: "date",
     required: true,
-    condition: (answers) => answers.date_limite === 'Date précise (ex: dans 3-4 mois)'
+    condition: { field: "date_limite", value: "Date précise (ex: dans 3-4 mois)" }
   },
   {
     id: "titre_politesse",
@@ -120,7 +121,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Société d'acquêts","Séparation de biens","Communauté de biens"],
-    condition: (answers) => answers.etat_civil === 'Marié'
+    condition: { field: "etat_civil", value: "Marié" }
   },
   {
     id: "situation_veuf",
@@ -129,7 +130,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Je reçois un montant régulier","Je ne reçois pas de montant"],
-    condition: (answers) => answers.etat_civil === 'Veuf/Veuve'
+    condition: { field: "etat_civil", value: "Veuf/Veuve" }
   },
   {
     id: "telephone",
@@ -186,7 +187,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Maladie","Maternité/paternité"],
-    condition: (answers) => answers.arret_travail === 'Oui'
+    condition: { field: "arret_travail", value: "Oui" }
   },
   {
     id: "duree_arret",
@@ -195,7 +196,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Courte durée","Longue durée"],
-    condition: (answers) => answers.arret_travail === 'Oui'
+    condition: { field: "arret_travail", value: "Oui" }
   },
   {
     id: "assurance_emploi",
@@ -212,7 +213,7 @@ const allQuestions = [
     type: "textarea",
     required: true,
     placeholder: "Expliquez brièvement...",
-    condition: (answers) => answers.assurance_emploi === 'Oui'
+    condition: { field: "assurance_emploi", value: "Oui" }
   },
   {
     id: "revenu_retraite",
@@ -245,7 +246,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Dividendes","Je me tire un salaire","Je me tire un salaire et je me verse des dividendes"],
-    condition: (answers) => answers.revenu_travailleur_autonome === 'Oui'
+    condition: { field: "revenu_travailleur_autonome", value: "Oui" }
   },
   {
     id: "a_dettes",
@@ -270,7 +271,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "$ Montant",
-    condition: (answers) => answers.faillite_proposition !== 'Non jamais'
+    condition: { field: "faillite_proposition", not: "Non jamais" }
   },
   {
     id: "date_declaree",
@@ -278,7 +279,7 @@ const allQuestions = [
     question: "Date déclarée",
     type: "date",
     required: true,
-    condition: (answers) => answers.faillite_proposition !== 'Non jamais'
+    condition: { field: "faillite_proposition", not: "Non jamais" }
   },
   {
     id: "date_liberation",
@@ -286,7 +287,7 @@ const allQuestions = [
     question: "Date de libération",
     type: "date",
     required: true,
-    condition: (answers) => answers.faillite_proposition !== 'Non jamais'
+    condition: { field: "faillite_proposition", not: "Non jamais" }
   },
   {
     id: "connait_score_credit",
@@ -303,7 +304,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "Ex: 720",
-    condition: (answers) => answers.connait_score_credit === 'Oui'
+    condition: { field: "connait_score_credit", value: "Oui" }
   },
   {
     id: "paiements_manques",
@@ -344,7 +345,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "$ Montant",
-    condition: (answers) => answers.type_demande?.includes('Refinancement')
+    condition: { field: "type_demande", includes: "Refinancement" }
   },
   {
     id: "montant_versement",
@@ -353,7 +354,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "$ Montant",
-    condition: (answers) => answers.type_demande?.includes('Refinancement')
+    condition: { field: "type_demande", includes: "Refinancement" }
   },
   {
     id: "type_versement",
@@ -362,7 +363,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Hebdomadaire","Aux 2 semaines","Mensuel","Bi-mensuel"],
-    condition: (answers) => answers.type_demande?.includes('Refinancement')
+    condition: { field: "type_demande", includes: "Refinancement" }
   },
   {
     id: "valeur_marche",
@@ -371,7 +372,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "$ Montant",
-    condition: (answers) => answers.type_demande?.includes('Refinancement')
+    condition: { field: "type_demande", includes: "Refinancement" }
   },
   {
     id: "annee_construction",
@@ -380,7 +381,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "Ex: 1995",
-    condition: (answers) => answers.type_demande?.includes('Refinancement')
+    condition: { field: "type_demande", includes: "Refinancement" }
   },
   {
     id: "amortissement_desire",
@@ -389,7 +390,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "Nombre d'années",
-    condition: (answers) => answers.type_demande?.includes('Refinancement')
+    condition: { field: "type_demande", includes: "Refinancement" }
   },
   {
     id: "type_mise_fonds",
@@ -398,7 +399,7 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Je ne veux pas mettre plus que la mise de fonds minimale requise","J'ai un montant fixe que je veux utiliser pour ma mise de fonds"],
-    condition: (answers) => answers.type_demande?.includes('Nouvel achat')
+    condition: { field: "type_demande", includes: "Nouvel achat" }
   },
   {
     id: "montant_compte_banque",
@@ -407,7 +408,7 @@ const allQuestions = [
     type: "number",
     required: true,
     placeholder: "$ Montant (excluant le 1.5% de la valeur)",
-    condition: (answers) => answers.type_demande?.includes('Nouvel achat')
+    condition: { field: "type_demande", includes: "Nouvel achat" }
   },
   {
     id: "montant_depuis_3mois",
@@ -416,10 +417,27 @@ const allQuestions = [
     type: "select",
     required: true,
     options: ["Oui","Non"],
-    condition: (answers) => answers.type_demande?.includes('Nouvel achat')
-  }
+    condition: { field: "type_demande", includes: "Nouvel achat" }
+  },
+  
 ];
 
+// Helper function to evaluate conditions
+const evaluateCondition = (condition, answers) => {
+  if (!condition) return true;
+  
+  const answerValue = answers[condition.field];
+  
+  if (condition.not !== undefined) {
+    return answerValue !== condition.not;
+  }
+  
+  if (condition.includes !== undefined) {
+    return answerValue && answerValue.includes(condition.includes);
+  }
+  
+  return answerValue === condition.value;
+};
 
 export default function MortgageForm() {
   const [step, setStep] = useState('intro');
@@ -435,7 +453,7 @@ export default function MortgageForm() {
   }, [currentQuestionIndex, step]);
 
   const visibleQuestions = useMemo(() => {
-    return allQuestions.filter(q => !q.condition || q.condition(answers));
+    return allQuestions.filter(q => evaluateCondition(q.condition, answers));
   }, [answers]);
 
   const currentQuestion = visibleQuestions[currentQuestionIndex];
@@ -474,113 +492,118 @@ export default function MortgageForm() {
   };
 
   const updateAnswer = (id, value) => {
-    setAnswers(prev => ({ ...prev, [id]: value }));
+    setAnswers(prev => {
+      const newAnswers = { ...prev, [id]: value };
+      // Si nous modifions une question conditionnelle, nous devons vérifier si nous devons revenir à un index valide
+      if (step === 'questions') {
+        setTimeout(() => {
+          // Vérifier si la question actuelle est toujours visible après la mise à jour
+          const stillVisible = evaluateCondition(currentQuestion?.condition, newAnswers);
+          if (!stillVisible && currentQuestionIndex >= visibleQuestions.length - 1) {
+            handleNext();
+          }
+        }, 0);
+      }
+      return newAnswers;
+    });
   };
 
   // GÉNÉRATION PDF + ENVOI VIA TON API RESEND
-const sendToResend = async () => {
-  setIsSubmitting(true);
-  try {
-    // Créer le document PDF
-    const doc = new jsPDF();
-    
-    // Ajouter le titre
-    doc.setFontSize(18);
-    doc.setFont("helvetica", "bold");
-    doc.text("NOUVEAU DOSSIER HYPOTHÉCAIRE", 105, 20, { align: 'center' });
-    
-    // Informations du client
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Nom: ${answers.prenom || ''} ${answers.nom || ''}`, 14, 35);
-    doc.text(`Email: ${answers.courriel || ''}`, 14, 42);
-    doc.text(`Date de soumission: ${new Date().toLocaleDateString('fr-CA')}`, 14, 49);
-    
-    // Préparer les données pour le tableau
-    const tableData = visibleQuestions.map(q => [
-      q.question, 
-      answers[q.id] ? String(answers[q.id]) : 'Non renseigné'
-    ]);
-    
-    // Utiliser autoTable CORRECTEMENT
-    autoTable(doc, {
-      startY: 60,
-      head: [['Question', 'Réponse']],
-      body: tableData,
-      theme: 'striped',
-      headStyles: { 
-        fillColor: [220, 38, 38],
-        textColor: 255,
-        fontStyle: 'bold'
-      },
-      styles: { 
-        fontSize: 8,
-        cellPadding: 3,
-        overflow: 'linebreak',
-        cellWidth: 'wrap'
-      },
-      columnStyles: {
-        0: { cellWidth: 90, fontStyle: 'bold' },
-        1: { cellWidth: 95 }
-      },
-      margin: { left: 14, right: 14 },
-      didDrawPage: function(data) {
-        // Pied de page
-        doc.setFontSize(8);
-        doc.setFont("helvetica", "italic");
-        doc.text(
-          `Page ${data.pageNumber}`,
-          doc.internal.pageSize.width / 2,
-          doc.internal.pageSize.height - 10,
-          { align: 'center' }
-        );
+  const sendToResend = async () => {
+    setIsSubmitting(true);
+    try {
+      // Créer le document PDF
+      const doc = new jsPDF();
+      
+      // Ajouter le titre
+      doc.setFontSize(18);
+      doc.setFont("helvetica", "bold");
+      doc.text("NOUVEAU DOSSIER HYPOTHÉCAIRE", 105, 20, { align: 'center' });
+      
+      // Informations du client
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "normal");
+      doc.text(`Nom: ${answers.prenom || ''} ${answers.nom || ''}`, 14, 35);
+      doc.text(`Email: ${answers.courriel || ''}`, 14, 42);
+      doc.text(`Date de soumission: ${new Date().toLocaleDateString('fr-CA')}`, 14, 49);
+      
+      // Préparer les données pour le tableau
+      const tableData = visibleQuestions.map(q => [
+        q.question, 
+        answers[q.id] ? String(answers[q.id]) : 'Non renseigné'
+      ]);
+      
+      // Utiliser autoTable CORRECTEMENT
+      autoTable(doc, {
+        startY: 60,
+        head: [['Question', 'Réponse']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: { 
+          fillColor: [220, 38, 38],
+          textColor: 255,
+          fontStyle: 'bold'
+        },
+        styles: { 
+          fontSize: 8,
+          cellPadding: 3,
+          overflow: 'linebreak',
+          cellWidth: 'wrap'
+        },
+        columnStyles: {
+          0: { cellWidth: 90, fontStyle: 'bold' },
+          1: { cellWidth: 95 }
+        },
+        margin: { left: 14, right: 14 },
+        didDrawPage: function(data) {
+          // Pied de page
+          doc.setFontSize(8);
+          doc.setFont("helvetica", "italic");
+          doc.text(
+            `Page ${data.pageNumber}`,
+            doc.internal.pageSize.width / 2,
+            doc.internal.pageSize.height - 10,
+            { align: 'center' }
+          );
+        }
+      });
+      
+      // Générer le PDF en base64 pour Resend
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      
+      console.log('Envoi du formulaire...');
+      
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          pdf: pdfBase64,
+          name: `${answers.prenom || ''} ${answers.nom || ''}`.trim(),
+          email: answers.courriel || ''
+        }),
+      });
+
+      const result = await response.json();
+      
+      if (!response.ok) {
+        console.error('Erreur API:', result);
+        alert(`Erreur lors de l'envoi: ${result.error || 'Veuillez réessayer'}`);
+        return;
       }
-    });
-    
-    // Générer le PDF en base64 pour Resend
-    const pdfBase64 = doc.output('datauristring').split(',')[1];
-    
-    // OU alternative plus robuste pour tous les navigateurs :
-    // const pdfOutput = doc.output('arraybuffer');
-    // const pdfBase64 = btoa(
-    //   new Uint8Array(pdfOutput).reduce(
-    //     (data, byte) => data + String.fromCharCode(byte),
-    //     ''
-    //   )
-    // );
-    
-    console.log('Envoi du formulaire...');
-    
-    const response = await fetch('/api/send-email', {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        pdf: pdfBase64,
-        name: `${answers.prenom || ''} ${answers.nom || ''}`.trim(),
-        email: answers.courriel || ''
-      }),
-    });
 
-    const result = await response.json();
-    
-    if (!response.ok) {
-      console.error('Erreur API:', result);
-      alert(`Erreur lors de l'envoi: ${result.error || 'Veuillez réessayer'}`);
-      return;
+      console.log('Succès!', result);
+      setStep('success');
+      
+    } catch (error) {
+      console.error('Erreur complète:', error);
+      alert("Erreur technique: " + error.message);
+    } finally {
+      setIsSubmitting(false);
     }
+  };
 
-    console.log('Succès!', result);
-    setStep('success');
-    
-  } catch (error) {
-    console.error('Erreur complète:', error);
-    alert("Erreur technique: " + error.message);
-  } finally {
-    setIsSubmitting(false);
-  }
-};
   const groupedAnswers = useMemo(() => {
     const groups = {};
     visibleQuestions.forEach(q => {
@@ -592,6 +615,17 @@ const sendToResend = async () => {
     });
     return groups;
   }, [answers, visibleQuestions]);
+
+  // Fonction pour gérer la navigation après avoir modifié une réponse dans le récapitulatif
+  const handleEditQuestion = (question) => {
+    setEditingQuestion(question);
+    // Trouver l'index de la question dans les questions visibles
+    const questionIndex = visibleQuestions.findIndex(q => q.id === question.id);
+    if (questionIndex !== -1) {
+      setCurrentQuestionIndex(questionIndex);
+      setStep('questions');
+    }
+  };
 
   return (
     <div className="min-h-[100dvh] bg-black text-white flex flex-col font-sans antialiased selection:bg-red-500/30">
@@ -643,15 +677,15 @@ const sendToResend = async () => {
           )}
 
           {step === 'questions' && (
-            <motion.div key={currentQuestion.id} initial={{ opacity: 0, x: direction > 0 ? 30 : -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction > 0 ? -30 : 30 }} className="flex-1 flex flex-col w-full max-w-2xl mx-auto px-6">
+            <motion.div key={currentQuestion?.id || 'questions'} initial={{ opacity: 0, x: direction > 0 ? 30 : -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction > 0 ? -30 : 30 }} className="flex-1 flex flex-col w-full max-w-2xl mx-auto px-6">
               <div className="pt-8 flex-1">
                 <span className="inline-block text-red-600 font-bold text-[10px] md:text-xs mb-4 uppercase tracking-[0.3em] py-1 px-3 bg-red-600/10 rounded-full">
-                  {currentQuestion.section}
+                  {currentQuestion?.section || ''}
                 </span>
-                <h2 className="text-2xl md:text-4xl font-semibold leading-tight mb-10 tracking-tight">{currentQuestion.question}</h2>
+                <h2 className="text-2xl md:text-4xl font-semibold leading-tight mb-10 tracking-tight">{currentQuestion?.question || ''}</h2>
 
                 <div className="space-y-3 mb-8">
-                  {currentQuestion.type === 'select' ? (
+                  {currentQuestion?.type === 'select' ? (
                     currentQuestion.options.map((opt) => (
                       <button key={opt} onClick={() => { updateAnswer(currentQuestion.id, opt); setTimeout(handleNext, 350); }}
                         className={`w-full text-left p-5 md:p-6 rounded-2xl border-2 transition-all flex justify-between items-center group active:scale-[0.98] ${currentAnswer === opt ? 'border-red-600 bg-red-600/10' : 'border-white/5 bg-white/[0.03] hover:border-white/20'}`}>
@@ -661,14 +695,14 @@ const sendToResend = async () => {
                         </div>
                       </button>
                     ))
-                  ) : currentQuestion.type === 'tel' ? (
+                  ) : currentQuestion?.type === 'tel' ? (
                     <div className="mt-4">
                       <PhoneInput international defaultCountry="CA" value={currentAnswer} onChange={(v) => updateAnswer(currentQuestion.id, v || '')} className="text-2xl md:text-4xl" />
                     </div>
                   ) : (
                     <div className="relative mt-4">
-                      <input autoFocus type={currentQuestion.type} value={currentAnswer} placeholder={currentQuestion.placeholder} onChange={(e) => updateAnswer(currentQuestion.id, e.target.value)} 
-                        className={`w-full bg-transparent border-b-2 py-5 text-2xl md:text-4xl focus:outline-none transition-colors placeholder:text-white/5 ${currentQuestion.type === 'email' && currentAnswer && !validateEmail(currentAnswer) ? 'border-orange-500' : 'border-white/10 focus:border-red-600'}`}
+                      <input autoFocus type={currentQuestion?.type} value={currentAnswer} placeholder={currentQuestion?.placeholder} onChange={(e) => updateAnswer(currentQuestion.id, e.target.value)} 
+                        className={`w-full bg-transparent border-b-2 py-5 text-2xl md:text-4xl focus:outline-none transition-colors placeholder:text-white/5 ${currentQuestion?.type === 'email' && currentAnswer && !validateEmail(currentAnswer) ? 'border-orange-500' : 'border-white/10 focus:border-red-600'}`}
                         onKeyDown={(e) => e.key === 'Enter' && isValid && handleNext()} />
                     </div>
                   )}
@@ -677,7 +711,7 @@ const sendToResend = async () => {
 
               <div className="py-8 flex items-center justify-between border-t border-white/5 mt-auto">
                 <button onClick={handlePrev} className="flex items-center gap-2 px-5 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white/60 transition-all text-sm font-bold"><ChevronLeft size={18} /> Précédent</button>
-                {currentQuestion.type !== 'select' && (
+                {currentQuestion?.type !== 'select' && (
                   <button onClick={handleNext} disabled={!isValid} className={`flex items-center gap-2 px-8 py-3 rounded-full font-bold transition-all text-sm ${isValid ? 'bg-white text-black shadow-lg shadow-white/10' : 'bg-white/5 text-white/20 cursor-not-allowed border border-white/5'}`}>Suivant <ChevronRight size={18} /></button>
                 )}
               </div>
