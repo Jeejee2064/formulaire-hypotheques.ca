@@ -96,7 +96,7 @@ export async function POST(req) {
     // 1. CRÉATEUR — notifié séparément
     if (creatorEmail) {
       sends.push(resend.emails.send({
-        from: 'Plateforme <no-reply@hypotheques.info>',
+        from: 'Hypotheques Market <no-reply@hypotheques.info>',
         to: creatorEmail,
         subject: `📬 Votre dossier a été rétabli`,
         html: buildEmail({
@@ -114,7 +114,7 @@ export async function POST(req) {
         : otherBrokers.slice(1)
 
       const emailPayload = {
-        from: 'Plateforme <no-reply@hypotheques.info>',
+        from: 'Hypotheques Market <no-reply@hypotheques.info>',
         to: toAddress,
         subject: `🟢 Dossier rétabli — ${fmt(deal.loan_amount)}`,
         html: buildEmail({
