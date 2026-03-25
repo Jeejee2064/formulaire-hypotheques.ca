@@ -527,7 +527,7 @@ export default function DashboardClient({ initialDeals, currentUserId, currentUs
             <header className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.06] h-16 flex items-center">
                 <div className="max-w-4xl mx-auto px-5 w-full flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <img src="/logo.svg" alt="Logo" className="h-5 w-auto object-contain" />
+<img src="/network.png" alt="Logo" className="h-12 z-[100] w-auto object-contain" />
                         {isAdmin && (
                             <span className="text-[10px] font-bold uppercase tracking-[0.25em] px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">
                                 Admin
