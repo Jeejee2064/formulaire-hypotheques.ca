@@ -62,7 +62,7 @@ export default function AuthPage() {
         if (error) {
             setError(error.message)
         } else {
-            setMessage('Compte créé ! Vérifie ton email pour confirmer ton compte avant de te connecter')
+            setMessage('Compte créé ! tu peux maintenant te connecter')
             setMode('login')
             setName('')
         }
